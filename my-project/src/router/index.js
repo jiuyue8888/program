@@ -6,6 +6,8 @@ import xy from '@/pages/xieyi/index.vue'
 import myOrder from '@/pages/myOrder/index.vue'
 import stages from '@/pages/stages/index.vue'
 import steps from '@/pages/steps/index.vue'
+import adminLogin from '@/admin/login/index.vue'
+import adminIndex from '@/admin/index/index.vue'
 
 Vue.use(Router)
 
@@ -16,6 +18,8 @@ export default new Router({
     {path: '/myOrder',name: 'myOrder',component: myOrder},
     {path: '/stages',name: 'stages',component: stages},
     {path: '/steps',name: 'steps',component: steps},
+    {path: '/admin/login',name: 'adminLogin',component: adminLogin},
+    {path: '/admin/index',name: 'adminIndex',component: adminIndex},
     {
       path: '/login',
       name: 'login',

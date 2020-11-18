@@ -51,25 +51,25 @@ export default {
     font-size: 0.25rem;
     transform: translate3d(-50%,-50%,0);
   }
-  .van-picker .van-picker__toolbar{
+  .index .van-picker .van-picker__toolbar{
       border-bottom: 1px solid #e7e7e7;
     }
-    .van-picker__confirm{
+    .index .van-picker__confirm{
       color: #EF3E2F;
     }
-    .van-step--horizontal .van-step__title{
+    .index .van-step--horizontal .van-step__title{
         padding-top: 10px;
       }
-      .van-step--horizontal .van-step__line,
-    .van-step--horizontal .van-step__circle-container{
+      .index .van-step--horizontal .van-step__line,
+    .index .van-step--horizontal .van-step__circle-container{
       top:0
     }
-    .van-steps--horizontal .van-steps__items{
+    .index .van-steps--horizontal .van-steps__items{
       margin: 0;
       padding: 0;
     }
 
-    .van-step--horizontal .van-step__title{
+    .index .van-step--horizontal .van-step__title{
 
       font-size: 0.26rem;
       font-family: PingFangSC-Medium, PingFang SC;
@@ -77,17 +77,17 @@ export default {
       color: #333333;
       line-height: 0.26rem;
     }
-    .van-step--horizontal .van-step__title--active{
+    .index .van-step--horizontal .van-step__title--active{
       color: #333333!important;
     }
-    .van-field__control{
+    .index .van-field__control{
       font-size: 0.24rem;
     }
-    .van-field__label{
+    .index .van-field__label{
       width: 2rem;
       margin-right: 0;
     }
-    .van-uploader__upload{
+    .index .van-uploader__upload{
       width: 0.9rem;
       height: 0.9rem;
       background-color: #EF3E2F;
@@ -95,8 +95,17 @@ export default {
       opacity: 0.3;
       color: #fff;
     }
-    .van-uploader__upload-icon{
+    .index .van-uploader__upload-icon{
       color: #fff;
+    }
+    .admin .van-field__control{
+      font-size: 14px;
+    }
+    .admin .van-cell{
+      font-size: 16px;
+    }
+    .admin .el-table::before{
+      display: none;
     }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
