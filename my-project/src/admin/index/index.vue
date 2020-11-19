@@ -5,9 +5,9 @@
         <div class="left">
           <div class="top"><img src="../../assets/logo.png"/>必过分期</div>
           <div class="down">
-            <p class="curr"><van-icon name="balance-list-o" color="#fff"/>订单管理</p>
-            <p><van-icon name="shop-o" color="#fff"/>商户管理</p>
-            <p><van-icon name="newspaper-o" color="#fff"/>课程管理</p>
+            <p :class="navId==0?'curr':''" @click="nav(0)"><van-icon name="balance-list-o" color="#fff"/>订单管理</p>
+            <p :class="navId==1?'curr':''" @click="nav(1)"><van-icon name="shop-o" color="#fff"/>商户管理</p>
+            <p :class="navId==2?'curr':''" @click="nav(2)"><van-icon name="newspaper-o" color="#fff"/>课程管理</p>
           </div>
         </div>
         </el-col>
@@ -18,9 +18,18 @@
           </div>
           <div class="down">
             <div class="down-body">
+              <div v-show="navId==0">
+                <vorder @detail="detailHandle" v-show="data==''"/>
+                <vdetail v-show="data!==''"/>
+              </div>
+              <div v-show="navId==1">
+                <vshop/>
+              </div>
+              <div v-show="navId==2">
+                <vclassList/>
+              </div>
 
-              <vorder @detail="detailHandle" v-show="data==''"/>
-              <vdetail v-show="data!==''"/>
+              
             </div>
           </div>
         </div>
@@ -32,21 +41,26 @@
 <script>
   import order from '../order/index.vue';
   import detail from '../order/detail.vue';
+  import shop from '../shop/index.vue';
+  import classList from '../classList/index.vue';
 
   export default {
     name: 'index',
     components:{
       'vorder':order,
       'vdetail':detail,
+      'vshop':shop,
+      'vclassList':classList,
     },
     data() {
       return {
-        data:''
+        data:'',
+        navId:0
       }
     },
     methods:{
-      getCode(){
-
+      nav(n){
+        this.navId = n
       },
       detailHandle(data){
         console.log(data)
@@ -107,12 +121,18 @@
   height: 50px;
   line-height: 50px;
   opacity: 0.8;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
 .left .down p i{
   font-size: 18px;
   margin-right: 10px;
 }
 .left .down p.curr{
+  opacity: 1;
+  background-color: #FB7861;
+}
+.left .down p:hover{
   opacity: 1;
   background-color: #FB7861;
 }

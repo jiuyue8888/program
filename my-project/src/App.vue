@@ -107,6 +107,12 @@ export default {
     .admin .el-table::before{
       display: none;
     }
+    .admin .shop .el-input{
+      margin-bottom: 10px;
+    }
+    .admin .shop .el-dialog{
+      width: 400px;
+    }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
 
