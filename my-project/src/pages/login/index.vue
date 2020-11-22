@@ -10,13 +10,14 @@
       <p><img src="../../assets/login_ico_phone@3x(1).png"><input placeholder="请输入验证码" :value="code"/>
       <span @click="getCode" :class="isCode?'':'curr'">{{time}}</span></p>
       <i>{{err}}</i>
-      <b :class="login?'curr':''">立即登录</b>
+      <b :class="login?'curr':''" @click='loginHandle'>立即登录</b>
       <strong>登录代表您同意<em @click="$router.push('./xy')">《必过分期用户服务协议》</em></strong>
     </div>
   </div>
 </template>
 
 <script>
+  import {login,sendLoginMessage} from '../../server/index.js';
   export default {
     name: 'index',
     data() {
@@ -48,6 +49,19 @@
             that.time = _t+"s重新获取";
           }
         },1000)
+        sendLoginMessage({
+          mobile:this.iphone
+        }).then(res=>{})
+      },
+      loginHandle(){
+        login({
+          mobile:this.iphone,
+          veriCode:this.code
+        }).then(res=>{
+          if(res.code==0){
+            this.$router.push('./index')
+          }
+        })
       }
     }
   }

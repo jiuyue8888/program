@@ -18,7 +18,7 @@ export default new Router({
     {path: '/myOrder',name: 'myOrder',component: myOrder},
     {path: '/stages',name: 'stages',component: stages},
     {path: '/steps',name: 'steps',component: steps},
-    {path: '/admin/login',name: 'adminLogin',component: adminLogin},
+    {path: '/admin',name: 'adminLogin',component: adminLogin},
     {path: '/admin/index',name: 'adminIndex',component: adminIndex},
     {
       path: '/login',

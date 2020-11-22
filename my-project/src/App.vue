@@ -110,6 +110,7 @@ export default {
     .admin .shop .el-input{
       margin-bottom: 10px;
     }
+    .classList .el-dialog,
     .admin .shop .el-dialog{
       width: 400px;
     }

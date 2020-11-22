@@ -5,9 +5,11 @@
         <h3>必过分期管理系统</h3>
         <van-field v-model="tel" type="tel" label="手机号" label-width="4em"/>
         <van-field v-model="password" type="password" label="密码" label-width="4em"/>
+
         <van-field
           v-model="code"
           center
+          v-show="false"
           clearable
           label="验证码"
           placeholder="请输入验证码"
@@ -18,12 +20,14 @@
           </template>
         </van-field>
 
-        <van-button type="info" style="width: 70%;margin: 50px auto;display: block;">立即登录</van-button>
+        <van-button type="info" style="width: 70%;margin: 50px auto;display: block;" @click='loginClick'>立即登录</van-button>
     </div>
   </div>
 </template>
 
 <script>
+  import {login,logout} from "../../server/admin.js"
+  import md5 from 'js-md5';
   export default {
     name: 'index',
     data() {
@@ -35,7 +39,28 @@
 
       }
     },
+    created(){
+      /*
+      15986936081/123456
+      logout({}).then(res=>{
+        window.localStorage.removeItem('sessionCode')
+      })*/
+    },
     methods:{
+      loginClick(){
+        login({
+          mobile:this.tel,
+          password:md5(this.password)
+        }).then(res=>{
+          if(res.data.sessionCode){
+            window.localStorage.setItem('sessionCode',res.data.sessionCode)
+
+            this.$router.push('./index')
+          }else{
+            this.$info(res.msg)
+          }
+        })
+      },
       getCode(){
 
       }

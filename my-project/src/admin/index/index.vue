@@ -14,13 +14,13 @@
       <el-col :span="21">
         <div class="right">
           <div class="top">
-            <van-icon name="share-o" /><em>退出登录</em>
+            <van-icon name="share-o"/><em @click="loginOut">退出登录</em>
           </div>
           <div class="down">
             <div class="down-body">
               <div v-show="navId==0">
                 <vorder @detail="detailHandle" v-show="data==''"/>
-                <vdetail v-show="data!==''"/>
+                <vdetail @detail="detailHandle" v-show="data!==''" :data="data"/>
               </div>
               <div v-show="navId==1">
                 <vshop/>
@@ -29,7 +29,7 @@
                 <vclassList/>
               </div>
 
-              
+
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@
   import detail from '../order/detail.vue';
   import shop from '../shop/index.vue';
   import classList from '../classList/index.vue';
-
+  import {getDevBusinessList,logout} from '../../server/admin.js';
   export default {
     name: 'index',
     components:{
@@ -55,8 +55,13 @@
     data() {
       return {
         data:'',
-        navId:0
+        navId:0,
+        page:0,
+        rows:10
       }
+    },
+    created(){
+
     },
     methods:{
       nav(n){
@@ -65,6 +70,13 @@
       detailHandle(data){
         console.log(data)
         this.data = data;
+      },
+      loginOut(){
+        logout({}).then(res=>{
+          if(res.code==0){
+            this.$router.push('./')
+          }
+        })
       }
     }
   }
@@ -153,9 +165,13 @@
   padding: 0 20px;
   background-color: #fff;
 }
+.right .top em{
+  cursor: pointer;
+}
 .right .top i{
   font-size: 16px;
 }
+
 .right .down{
   position: relative;
   width: 100%;

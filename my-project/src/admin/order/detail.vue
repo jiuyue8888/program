@@ -4,98 +4,115 @@
       <el-col :span="12">
         <div class="left">
           <h3>分期信息</h3>
-          <p>分期人姓名：张某某</p>
-          <p>开始时间：2020-09-09</p>
+          <p>分期人姓名：{{data.name}}</p>
+          <p>开始时间：{{data.createdTime}}</p>
           <h3>个人资料</h3>
-          <p>姓名：张某某</p>
-          <p>单位名称：单位名称</p>
+          <p>姓名：{{data.name}}</p>
+          <p>单位名称：{{data.companyName}}</p>
           <h3>亲属关系</h3>
-          <p>亲属关系：母亲</p>
+          <p>亲属关系：{{data.relation}}</p>
           <h3>银行信息</h3>
-          <p>银行名称：工商银行</p>
+          <p>银行名称：{{data.bankName}}&nbsp;&nbsp;银行预留手机号：{{data.bankMobile}}</p>
+
           <h3>身份证信息</h3>
           <p>身份证正面：</p>
-          <section><img src="../../assets/indexbg.png"><i class="el-icon-search" @click="bigImg(0)"></i></section>
+          <section><img :src="data.idCardFrontImg"><i class="el-icon-search" @click="bigImg(0)"></i></section>
           <h3>审核状态</h3>
           <p class="status1">审核中</p>
-          <el-button type="primary" @click="pass">审核通过</el-button>
-          <el-button type="success" @click="unpass">拒绝通过</el-button>
+          <el-button type="primary" @click="pass(3)">审核通过</el-button>
+          <el-button type="success" @click="pass(2)">拒绝通过</el-button>
         </div>
       </el-col>
       <el-col :span="12">
         <div class="right">
           <h3></h3>
-          <p>电话号码：13333333333</p>
-          <p>结束时间：2020-09-09</p>
+          <p>电话号码：{{data.mobile}}</p>
+          <p>结束时间：{{data.endTime}}</p>
           <h3></h3>
-          <p>现居地址：现居地址现居地址现居地址</p>
-          <p>单位地址：现居地址现居地址现居地址现居地址</p>
+          <p>现居地址：{{data.area}}</p>
+          <p>单位地址：{{data.companyAdress}}</p>
           <h3></h3>
-          <p>亲属姓名：张某某</p>
+          <p>亲属姓名：{{data.relativesName}}</p>
           <h3></h3>
-          <p>银行卡号：1387887878787878</p>
+          <p>银行卡号：{{data.bankNumber}}</p>
+          <p></p>
           <h3></h3>
           <p>身份证背面：</p>
-          <section><img src="../../assets/indexbg.png"><i class="el-icon-search" @click="bigImg(1)"></i></section>
+          <section><img :src="data.idCardBackImg"><i class="el-icon-search" @click="bigImg(1)"></i></section>
 
         </div>
       </el-col>
 
     </el-row>
-    <div class="bigImg" v-show="bigImgShow" @click="bigImgShow=false"><img src="../../assets/indexbg.png"/></div>
+    <div class="bigImg" v-show="bigImgShow" @click="bigImgShow=false"><img :src="big"/></div>
   </div>
 </template>
 
 <script>
+  import {verify} from '../../server/admin.js';
   export default {
     name: 'vorder',
-    props: [],
+    props: ['data'],
     data() {
       return {
           bigImgShow:false,
+          big:this.data.idCardFrontImg
       };
     },
     methods: {
-      bigImg(){
+      bigImg(n){
         this.bigImgShow=true;
+
+        this.big = n==0?this.data.idCardFrontImg:this.data.idCardBackImg
       },
-      pass(){
-        this.$confirm('确定审核通过？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
-          .then(() => {
-            this.$message({
-              type: 'success',
-              message: '审核通过!'
-            });
+      pass(status){
+        if(status==2){
+          this.$confirm('确定拒绝通过？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
           })
-          .catch(() => {
-            this.$message({
-              type: 'info',
-              message: '审核未通过'
+            .then(() => {
+              verify({
+                id:this.data.id,
+                verifyStatus:status
+              }).then(res=>{
+                if(res.code==0){
+                  this.$emit('detail', '');
+                }else{
+                  this.$info(res.msg)
+                }
+              })
+            })
+            .catch(() => {
+
             });
-          });
+        }else{
+          this.$confirm('确定审核通过？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })
+            .then(() => {
+              verify({
+                id:this.data.id,
+                verifyStatus:status
+              }).then(res=>{
+                if(res.code==0){
+                  this.$emit('detail', '');
+                }else{
+                  this.$info(res.msg)
+                }
+              })
+            })
+            .catch(() => {
+
+            });
+        }
+
       },
       unpass(){
-        this.$confirm('确定拒绝通过？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
-          .then(() => {
-            this.$message({
-              type: 'success',
-              message: '拒绝通过!'
-            });
-          })
-          .catch(() => {
-            this.$message({
-              type: 'info',
-              message: '取消拒绝通过'
-            });
-          });
+
       }
     }
   };
