@@ -54,8 +54,9 @@
         }).then(res=>{
           if(res.data.sessionCode){
             window.localStorage.setItem('sessionCode',res.data.sessionCode)
+            window.localStorage.setItem('roleStatus',res.data.roleStatus)
 
-            this.$router.push('./admin/index')
+            this.$router.push('./index')
           }else{
             this.$info(res.msg)
           }

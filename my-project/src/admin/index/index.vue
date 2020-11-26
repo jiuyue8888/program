@@ -4,10 +4,18 @@
       <el-col :span="3">
         <div class="left">
           <div class="top"><img src="../../assets/logo.png"/>必过分期</div>
-          <div class="down">
+          <div class="down" v-show="roleStatus==1">
             <p :class="navId==0?'curr':''" @click="nav(0)"><van-icon name="balance-list-o" color="#fff"/>订单管理</p>
             <p :class="navId==1?'curr':''" @click="nav(1)"><van-icon name="shop-o" color="#fff"/>商户管理</p>
             <p :class="navId==2?'curr':''" @click="nav(2)"><van-icon name="newspaper-o" color="#fff"/>课程管理</p>
+          </div>
+          <div class="down" v-show="roleStatus==2">
+            <p :class="navId==0?'curr':''" @click="nav(0)"><van-icon name="balance-list-o" color="#fff"/>订单管理</p>
+            <p :class="navId==2?'curr':''" @click="nav(2)"><van-icon name="newspaper-o" color="#fff"/>课程管理</p>
+          </div>
+          <div class="down" v-show="roleStatus==3">
+            <p :class="navId==0?'curr':''" @click="nav(0)"><van-icon name="balance-list-o" color="#fff"/>订单管理</p>
+            <p :class="navId==1?'curr':''" @click="nav(1)"><van-icon name="shop-o" color="#fff"/>商户管理</p>
           </div>
         </div>
         </el-col>
@@ -57,7 +65,8 @@
         data:'',
         navId:0,
         page:0,
-        rows:10
+        rows:10,
+        roleStatus:window.localStorage.getItem('roleStatus')
       }
     },
     created(){
