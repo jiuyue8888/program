@@ -3,19 +3,27 @@
     <h5>教育机构</h5>
     <h3>广东蓝符教育教育机构</h3>
     <div class="form">
-      <p><span>分期金额</span><input type="number" placeholder="填写金额" /></p>
+      <p><span>分期金额</span>
+
+      <el-input v-model="amount" placeholder="填写金额"></el-input>
+      </p>
+
+
       <p><span>分期数</span>
         <span class="tagList">
-          <el-tag v-for="(item,id) in arr" :key="id" :class="id==tag?'curr':''" @click="checkTag(id)">{{item}}</el-tag>
+          <el-tag v-for="(item,id) in arr" :key="id" :class="id==tag?'curr':''" @click="checkTag(item)">{{item}}期</el-tag>
         </span>
       </p>
-      <p><span>每期应还</span><input type="number" /></p>
+      <p><span>每期应还</span>
+      <em>{{amount/arr[tag]}}</em>
+
+      </p>
       <p><span>选择分期课程</span>
         <section @click="show=true;">{{select}}<img src="../../assets/home_ico_arrow@3x(7).png" /></section>
       </p>
     </div>
     <b @click="submit">立即申请</b>
-    <strong><input type="checkbox" />我已阅读并同意<em>《保理付款服务合同》</em></strong>
+    <strong><input type="checkbox" checked="true"/>我已阅读并同意<em>《保理付款服务合同》</em></strong>
     <div class="pickFloat" v-show="show">
       <van-picker show-toolbar :columns="columns" @change="onChange" @cancel="cancel" @confirm="confirm"
       :class="pickerAn?'animated fadeInUp':'animated fadeOutDown'" />
@@ -25,6 +33,7 @@
 </template>
 
 <script>
+  import {getDevCourseList} from '../../server/index.js';
   const cities = {
     浙江: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
     福建: ['福州', '厦门', '莆田', '三明', '泉州'],
@@ -40,14 +49,22 @@
         }, {
           values: cities['浙江']
         }],
+        amount:'',
+        num:'',
+        courseId:'',
         select: '点击选择',
         tag: 0,
-        arr: ['3期', '6期', '9期', '12期'],
+        arr: [3,6,9,12],
 
       }
     },
     created(){
       console.log(this)
+      getDevCourseList({
+        userKey:window.localStorage.getItem('userKey')
+      }).then(res=>{
+
+      })
     },
     methods: {
       onChange(picker, values) {
@@ -55,9 +72,10 @@
       },
       checkTag(id) {
         this.tag = id;
+
       },
       confirm(value) {
-        
+
         this.select = value[0]+'-'+value[1]
         this.cancel();
       },
@@ -69,7 +87,16 @@
         },500)
       },
       submit(){
-        this.$info('缺少教育机构，请联系对方分期',2)
+        //this.$info('缺少教育机构，请联系对方分期',2)
+        this.$router.push({
+          path:'./steps',
+          query:{
+            stages:this.arr[this.tag],
+            amount:this.amount,
+            courseName:this.select,
+            courseId:this.courseId,
+          }
+        })
       }
     }
   }

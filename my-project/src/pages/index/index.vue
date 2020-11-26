@@ -26,12 +26,23 @@
 </template>
 
 <script>
+  import {getDevBusiness} from '../../server/index.js'
   export default {
     name: 'index',
     data() {
       return {
 
       }
+    },
+    created(){
+      getDevBusiness({
+        mobile:window.localStorage.getItem('mobile')
+      }).then(res=>{
+        window.localStorage.setItem('userKey',res.data.userKey)
+      })
+    },
+    methods:{
+
     }
   }
 </script>

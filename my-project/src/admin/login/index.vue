@@ -55,7 +55,7 @@
           if(res.data.sessionCode){
             window.localStorage.setItem('sessionCode',res.data.sessionCode)
 
-            this.$router.push('./index')
+            this.$router.push('./admin/index')
           }else{
             this.$info(res.msg)
           }

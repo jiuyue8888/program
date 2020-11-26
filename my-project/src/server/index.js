@@ -6,6 +6,13 @@ axios.create({
 //const http="https://m.doujinfq.com/"
 const http=""
 axios.defaults.headers.common['sessionCode'] = localStorage.getItem('sessionCodeh5');
+const formObj = (params)=>{
+    var formData = new FormData();
+    for (let k in params) {
+        formData.append(k, params[k]);
+    }
+    return formData
+}
 
 const getForm = (url,data)=>{
   return axios({
@@ -27,5 +34,17 @@ const postForm = (url,data)=>{
 }
 
 export const login = data=>postForm('/product/mobile/outer/api/login',data);
+
+//获取商户信息接口
 export const getDevBusiness = data=>getForm('/product/normal/outer/api/getDevBusiness',data);
 export const sendLoginMessage = data=>getForm('/product/mobile/outer/api/sendLoginMessage',data);
+//图片上传接口
+export const upload = data=>postForm('/product/mobile/outer/api/upload',formObj(data));
+//h5获取商户课程列表接口
+export const getDevCourseList = data=>getForm('/product/normal/outer/api/getDevCourseList',data);
+//h5生产订单接口
+export const createOrder = data=>postForm('/product/mobile/outer/api/createOrder',data);
+//h5获取用户订单列表接口
+export const getUserOrderList = data=>getForm('/product/mobile/outer/api/getUserOrderList',data);
+//h5用户删除订单接口
+export const deleteOrder = data=>postForm('/product/mobile/outer/api/deleteOrder',data);

@@ -11,19 +11,24 @@
       <div class="p1" v-show="active==0">
         <h3>*请拍摄您的二代身份证照片进行认证</h3>
         <div class="photo photo1">
-          <img v-show="formData.codePhoto1!=''" :src="formData.codePhoto1"/>
-          <van-uploader :after-read="afterRead1" /><p>上传身份证正面</p>
+          <img v-show="formData.idCardFrontImg!=''" :src="formData.idCardFrontImg" />
+          <van-uploader :after-read="afterRead1" />
+          <p>上传身份证正面</p>
         </div>
         <div class="photo photo2">
-          <img v-show="formData.codePhoto2!=''" :src="formData.codePhoto2"/>
-          <van-uploader :after-read="afterRead2" /><p>上传身份证背面</p></div>
+          <img v-show="formData.idCardBackImg!=''" :src="formData.idCardBackImg" />
+          <van-uploader :after-read="afterRead2" />
+          <p>上传身份证背面</p>
+        </div>
         <div class="photo photo3">
-          <img v-show="formData.codePhoto3!=''" :src="formData.codePhoto3"/>
-          <van-uploader :after-read="afterRead3" /><p>上传首付收据</p></div>
+          <img v-show="formData.receiptImg!=''" :src="formData.receiptImg" />
+          <van-uploader :after-read="afterRead3" />
+          <p>上传首付收据</p>
+        </div>
       </div>
       <div class="p2" v-show="active==1">
         <van-field v-model="formData.name" label="姓名" placeholder="请填写姓名" @blur="check" />
-        <van-field v-model="formData.code" label="身份证号" placeholder="请填写身份证号" @blur="check" />
+        <van-field v-model="formData.idCardNumber" label="身份证号" placeholder="请填写身份证号" @blur="check" />
         <van-cell title="现居住地" @click="showArea=true">
           <template #right-icon>
             <span class="add">{{formData.address}}<img src="../../assets/home_ico_arrow@3x(7).png" /></span>
@@ -38,8 +43,8 @@
         <div class="border"></div>
 
 
-        <van-field v-model="formData.gs" label="公司名称" placeholder="请如实填写（最多30字）" maxLength="30" @blur="check" />
-        <van-field v-model="formData.gsTel" label="公司电话" placeholder="如果不记得，请写自己的电话" @blur="check" />
+        <van-field v-model="formData.companyName" label="公司名称" placeholder="请如实填写（最多30字）" maxLength="30" @blur="check" />
+        <van-field v-model="formData.companyNumber" label="公司电话" placeholder="如果不记得，请写自己的电话" @blur="check" />
         <van-cell title="公司地址" @click="showGs=true">
           <template #right-icon>
             <span class="add">{{formData.gsAdd}}<img src="../../assets/home_ico_arrow@3x(7).png" /></span>
@@ -53,11 +58,11 @@
         </van-cell>
         <div class="border"></div>
 
-        <van-field v-model="formData.pName" label="亲属姓名" placeholder="只能直系亲属（父母或配偶）" @blur="check" />
-        <van-field v-model="formData.pTel" label="手机号码" placeholder="只能输入手机号11位" @blur="check" />
+        <van-field v-model="formData.relativesName" label="亲属姓名" placeholder="只能直系亲属（父母或配偶）" @blur="check" />
+        <van-field v-model="formData.relativesMobile" label="手机号码" placeholder="只能输入手机号11位" @blur="check" />
         <van-cell title="关系" @click="showGx=true">
           <template #right-icon>
-            <span class="add">{{formData.parent}}<img src="../../assets/home_ico_arrow@3x(7).png" /></span>
+            <span class="add">{{formData.relation}}<img src="../../assets/home_ico_arrow@3x(7).png" /></span>
           </template>
         </van-cell>
         <van-cell></van-cell>
@@ -66,19 +71,19 @@
       <div class="p3" v-show="active==2">
         <h3>选择支持的银行</h3>
         <div class="yh">
-          <el-tag v-for="(item,id) in 10" :key="id" :class="id==formData.cardId?'curr':''" @click="getYH(id)">中国银行</el-tag>
+          <el-tag v-for="(item,id) in 10" :key="id" :class="id==formData.bankName?'curr':''" @click="getYH(id)">中国银行</el-tag>
         </div>
         <div class="border"></div>
-        <van-field v-model="formData.cardName" label="持卡人" placeholder="请填写持卡人" @blur="check" />
-        <van-field v-model="formData.cardCode" label="银行卡号" placeholder="请输入银行卡号" @blur="check" />
-        <van-field v-model="formData.cardTell" label="预留手机" placeholder="请输入开卡时给银行登记的手机号" @blur="check" />
-        <van-field v-model="formData.cardMsm" center clearable label=" " placeholder="请输入短信验证码">
+        <van-field v-model="formData.cardOwnerName" label="持卡人" placeholder="请填写持卡人" @blur="check" />
+        <van-field v-model="formData.bankNumber" label="银行卡号" placeholder="请输入银行卡号" @blur="check" />
+        <van-field v-model="formData.bankMobile" label="预留手机" placeholder="请输入开卡时给银行登记的手机号" @blur="check" />
+        <van-field v-model="formData.veriCode" center clearable label=" " placeholder="请输入短信验证码">
           <template #button>
             <span @click="sendCode" :style="time=='发送验证码'?'color:#0A6DF6':''">{{time}}</span>
           </template>
         </van-field>
         <strong>
-          <input type="checkbox" @change="agreeHandle" />我已阅读并同意<em>《保理付款服务合同》</em>
+          <input type="checkbox" @change="agreeHandle" checked="checked"/>我已阅读并同意<em>《保理付款服务合同》</em>
         </strong>
         <p>*提示：如果忘记手机号码可以联系银行申请重置</p>
         <div :class="btn?'btn curr':'btn'" @click="submit" v-show="active==2">完成申请</div>
@@ -91,10 +96,10 @@
             <p>我们会在1-3个工作日内完成审核，甚至是秒过！<br />若申请被拒绝建议重新扫描申请哦~</p>
           </div>
           <div class="border"></div>
-          <van-cell title="教育机构" value="xxx机构" />
-          <van-cell title="分期金额" value="6000元" />
-          <van-cell title="分期期数" value="6期" />
-          <van-cell title="每期应还" value="1000元" />
+          <van-cell title="教育机构" :value="formData.courseName" />
+          <van-cell title="分期金额" :value="formData.amount" />
+          <van-cell title="分期期数" :value="formData.stages" />
+          <van-cell title="每期应还" :value="formData.amount/formData.stages" />
         </div>
 
         <div class="btn curr" @click="$router.push('./myOrder')" v-show="active==3">查看我的订单</div>
@@ -120,37 +125,54 @@
 
 <script>
   import area from "./area.js";
-
+  import {
+    upload,
+    createOrder
+  } from "../../server/index.js";
   export default {
     name: 'index',
     data() {
       return {
         formData: {
-          parent: '请选择',//亲子关机
-          pName: '',//亲属姓名
-          pTel: '',//亲属电话
-          gs: '',//公司名称
-          gsTel: '',//公司电话
-          gsAdd: '请选择省市区',//公司地址
-          gsDetail: '',//公司详细地址
-          name: '',//姓名
-          code: '',//身份证号
-          detail: '',//详细地址
-          address: '请选择省市区',//居住地址
-          cardName: '',//持卡人姓名
-          cardCode: '',//卡号
-          cardTell: '',//预留电话
-          cardMsm: '',//短信验证码
-          cardId: -1,//银行
-          agree: false,//是否同意
-          codePhoto1: '',
-          codePhoto2: '',
-          codePhoto3: '',
+          stages: this.$route.query.stages,
+          amount: this.$route.query.amount,
+          courseName: this.$route.query.courseName,
+          courseId: this.$route.query.courseId,
+          userKey: window.localStorage.getItem('userKey'),
+
+          relation: '请选择', //亲子关机
+          relativesName: '', //亲属姓名
+          relativesMobile: '', //亲属电话
+
+          companyName: '', //公司名称
+          companyNumber: '', //公司电话
+          gsAdd: '请选择省市区', //公司地址
+          gsDetail: '', //公司详细地址
+          //companyAdress:this.formData.gsAdd+','+this.formData.gsDetail,
+
+          name: '', //姓名
+          idCardNumber: '', //身份证号
+          detail: '', //详细地址
+          mobile: window.localStorage.getItem('mobile'),
+          address: '请选择省市区', //居住地址
+          //area:this.formData.address+','+this.formData.detail,
+
+          cardOwnerName: '', //持卡人姓名
+          bankNumber: '', //卡号
+          bankMobile: '', //预留电话
+          veriCode: '', //短信验证码
+          bankName: -1, //银行
+          agree: true, //是否同意
+
+          idCardFrontImg: '',
+          idCardBackImg: '',
+          receiptImg: '',
+
         },
         time: '发送验证码',
         columns: ['父亲', '母亲', '配偶'],
         areaList: area,
-        active: 0, //当前进度
+        active: 2, //当前进度
         showArea: false, //地址联动显示隐藏
         showGs: false, //地址联动显示隐藏
         showGx: false, //亲属关系显示隐藏
@@ -158,28 +180,45 @@
 
       }
     },
+    created() {
+      //console.log(this.$route.query.stages)
+    },
     methods: {
       //第1步
       afterRead1(file) {
-        console.log(file);
+
         Object.assign(this.formData, {
-          codePhoto1: file.content
+          idCardFrontImg: file.content
         })
         this.check()
+        this.uploadHandle(file.file, 'idCardFrontImg')
       },
       afterRead2(file) {
-        console.log(file);
+
         Object.assign(this.formData, {
-          codePhoto2: file.content
+          idCardBackImg: file.content
         })
         this.check()
+        this.uploadHandle(file.file, 'idCardBackImg')
       },
       afterRead3(file) {
-        console.log(file);
+
         Object.assign(this.formData, {
-          codePhoto3: file.content
+          receiptImg: file.content
         })
         this.check()
+        this.uploadHandle(file.file, 'receiptImg')
+      },
+      uploadHandle(data, type) {
+        console.log(data);
+        const that = this;
+        upload({
+          file: data
+        }).then(res => {
+          Object.assign(that.formData, {
+            [type]: res.data
+          })
+        })
       },
       //第二步
       areaCancel() {
@@ -207,7 +246,7 @@
       onConfirm(value) {
 
         Object.assign(this.formData, {
-          parent: value
+          relation: value
         })
         this.showGx = false;
         this.check();
@@ -220,21 +259,21 @@
         let n = m == 0;
 
         if (this.active == 0) {
-          if (this.formData.codePhoto1 == '') {
+          if (this.formData.idCardFrontImg == '') {
             if (n) {
               this.$info('请上传身份证正面');
             }
             this.btn = false;
             return;
           }
-          if (this.formData.codePhoto2 == '') {
+          if (this.formData.idCardBackImg == '') {
             if (n) {
               this.$info('请上传身份证背面');
             }
             this.btn = false;
             return;
           }
-          if (this.formData.codePhoto3 == '') {
+          if (this.formData.receiptImg == '') {
             if (n) {
               this.$info('请上传首付收据');
             }
@@ -244,42 +283,42 @@
           this.btn = true;
         }
         if (this.active == 2) {
-          if (this.formData.cardName == '') {
+          if (this.formData.cardOwnerName == '') {
             if (n) {
               this.$info('请填写持卡人姓名');
             }
             this.btn = false;
             return;
           }
-          if (this.formData.cardCode == '') {
+          if (this.formData.bankNumber == '') {
             if (n) {
               this.$info('请填写银行卡号');
             }
             this.btn = false;
             return;
           }
-          if (this.formData.cardTell == '') {
+          if (this.formData.bankMobile == '') {
             if (n) {
               this.$info('请填写预留手机号');
             }
             this.btn = false;
             return;
           }
-          if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.formData.cardTell))) {
+          if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.formData.bankMobile))) {
             if (n) {
               this.$info('请填写正确的手机号')
             };
             this.btn = false;
             return;
           }
-          if (this.formData.cardMsm == '') {
+          if (this.formData.veriCode == '') {
             if (n) {
               this.$info('请填写验证码');
             }
             this.btn = false;
             return;
           }
-          if (this.formData.cardId == -1) {
+          if (this.formData.bankName == -1) {
             if (n) {
               this.$info('未选择支持的银行');
             }
@@ -303,14 +342,14 @@
             this.btn = false;
             return;
           }
-          if (this.formData.code == '') {
+          if (this.formData.idCardNumber == '') {
             if (n) {
               this.$info('请填写身份证号')
             };
             this.btn = false;
             return;
           }
-          if (!/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/.test(this.formData.code)) {
+          if (!/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/.test(this.formData.idCardNumber)) {
             if (n) {
               this.$info('请填写正确的身份证号')
             };
@@ -331,14 +370,14 @@
             this.btn = false;
             return;
           }
-          if (this.formData.gs == '') {
+          if (this.formData.companyName == '') {
             if (n) {
               this.$info('请填写公司名称')
             };
             this.btn = false;
             return;
           }
-          if (this.formData.gsTel == '') {
+          if (this.formData.companyNumber == '') {
             if (n) {
               this.$info('请填写公司电话')
             };
@@ -359,28 +398,28 @@
             this.btn = false;
             return;
           }
-          if (this.formData.pName == '') {
+          if (this.formData.relativesName == '') {
             if (n) {
               this.$info('请填写亲属姓名')
             };
             this.btn = false;
             return;
           }
-          if (this.formData.pTel == '') {
+          if (this.formData.relativesMobile == '') {
             if (n) {
               this.$info('请填写亲属电话')
             };
             this.btn = false;
             return;
           }
-          if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.formData.pTel))) {
+          if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.formData.relativesMobile))) {
             if (n) {
               this.$info('请填写正确的亲属电话')
             };
             this.btn = false;
             return;
           }
-          if (this.formData.parent == '请选择') {
+          if (this.formData.relation == '请选择') {
             if (n) {
               this.$info('请选择亲属关系')
             };
@@ -397,9 +436,28 @@
         if (!this.btn) {
           return;
         }
-        this.active = ac + 1;
-        this.btn = false;
-        console.log(this.formData);
+        if (this.active == 2) {
+
+          Object.assign(this.formData, {
+            companyAdress: this.formData.gsAdd + ',' + this.formData.gsDetail,
+            area: this.formData.address + ',' + this.formData.detail,
+          })
+          createOrder(this.formData).then(res => {
+            if (res.code == 0) {
+              this.active = ac + 1;
+              this.btn = false;
+            }else{
+              this.$info(res.msg)
+            }
+
+          })
+
+        } else {
+          this.active = ac + 1;
+          this.btn = false;
+        }
+
+
       },
       //第三部发送验证码
       sendCode() {
@@ -429,7 +487,7 @@
       },
       getYH(n) {
         Object.assign(this.formData, {
-          cardId: n
+          bankName: n
         })
         this.check();
       }
@@ -448,7 +506,8 @@
     box-sizing: border-box;
     padding-top: 0.3rem;
   }
-  .photo{
+
+  .photo {
     position: relative;
     width: 100%;
     height: 3.2rem;
@@ -462,29 +521,33 @@
     line-height: 0.3rem;
     box-sizing: border-box;
     padding-top: 0.9rem;
-    }
-    .photo p{
-      margin-top: 0.2rem;
-    }
-    .photo img{
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 3;
-      width: 100%;
-      height: 3.2rem;
-      object-fit: cover;
-    }
+  }
 
-  .photo1{
+  .photo p {
+    margin-top: 0.2rem;
+  }
+
+  .photo img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: 3.2rem;
+    object-fit: cover;
+  }
+
+  .photo1 {
     background: url(../../assets/pic_id1@3x.png) no-repeat 0 0;
     background-size: 100%;
   }
-  .photo2{
+
+  .photo2 {
     background: url(../../assets/pic_id2@3x.png) no-repeat 0 0;
     background-size: 100%;
   }
-  .photo3{
+
+  .photo3 {
     background: url(../../assets/pic_id3@3x.png) no-repeat 0 0;
     background-size: 100%;
   }
@@ -514,9 +577,10 @@
     position: relative;
     width: 100%;
     box-sizing: border-box;
-padding: 0.5rem 0.9rem;
+    padding: 0.5rem 0.9rem;
   }
-  .p1 h3{
+
+  .p1 h3 {
     text-align: center;
     font-size: 0.26rem;
     font-family: PingFangSC-Regular, PingFang SC;

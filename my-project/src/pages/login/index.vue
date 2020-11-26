@@ -6,10 +6,14 @@
       <p>必过分期，轻松助你逢考必过</p>
     </div>
     <div class="login">
-      <p><img src="../../assets/login_ico_phone@3x(2).png"><input placeholder="请输入手机号" :value="iphone"/></p>
-      <p><img src="../../assets/login_ico_phone@3x(1).png"><input placeholder="请输入验证码" :value="code"/>
+      <p><img src="../../assets/login_ico_phone@3x(2).png">
+      <el-input v-model="iphone" placeholder="请输入手机号" @blur="blur"></el-input>
+
+      <p><img src="../../assets/login_ico_phone@3x(1).png">
+      <el-input v-model="code" placeholder="请输入验证码" @blur="blur"></el-input>
+
       <span @click="getCode" :class="isCode?'':'curr'">{{time}}</span></p>
-      <i>{{err}}</i>
+      <i v-show="false">{{err}}</i>
       <b :class="login?'curr':''" @click='loginHandle'>立即登录</b>
       <strong>登录代表您同意<em @click="$router.push('./xy')">《必过分期用户服务协议》</em></strong>
     </div>
@@ -32,6 +36,7 @@
     },
     methods:{
       getCode(){
+        console.log(this.iphone)
         if(!this.isCode){
           return;
         }
@@ -39,6 +44,10 @@
         this.isCode=false;
         let _t = 60;
         this.time = _t+"s重新获取";
+        sendLoginMessage({
+          mobile:this.iphone
+        }).then(res=>{})
+
         const st = setInterval(()=>{
           _t--;
           if(_t == 0){
@@ -49,17 +58,29 @@
             that.time = _t+"s重新获取";
           }
         },1000)
-        sendLoginMessage({
-          mobile:this.iphone
-        }).then(res=>{})
+
+      },
+      blur(){
+
+        if(this.iphone!=''&&this.code!=''){
+          this.login = true
+        }
+
       },
       loginHandle(){
+        if(!this.login){
+          return;
+        }
         login({
           mobile:this.iphone,
           veriCode:this.code
         }).then(res=>{
           if(res.code==0){
-            this.$router.push('./index')
+            this.$router.push('./')
+            window.localStorage.setItem('sessionCodeh5',res.data.sessionCode)
+            window.localStorage.setItem('mobile',res.data.mobile)
+          }else{
+            this.$info(res.msg)
           }
         })
       }
@@ -84,6 +105,7 @@
   }
 
   .login p {
+    position: relative;
     display: flex;
     align-items: center;
     height: 1.08rem;
@@ -93,14 +115,17 @@
   }
 
   .login p span {
+    position: absolute;
+    right: 0;
+    top: 0;
     width: 1.7rem;
     text-align: center;
-    height: 0.28rem;
+    height: 1.08rem;
     font-size: 0.28rem;
     font-family: PingFangSC-Regular, PingFang SC;
     font-weight: 400;
     color: #0A6DF6;
-    line-height: 0.28rem;
+    line-height: 1.08rem;
   }
   .login p span.curr{
     color: #999;

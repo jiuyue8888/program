@@ -5,32 +5,33 @@
       <p>您没进行任何分期</p>
     </div>
     <div class="orderList" v-else>
-      <div class="part1" v-if="no">
+      <div class="part1" v-if="data.length==0">
         <span>当前没有任何欠款~</span>
       </div>
       <div class="part1" v-else>
         <b>当前应还款</b>
-        <p>￥<em>9888</em>元</p>
+        <p>￥<em>{{repayment}}</em>元</p>
         <p>每月10号进行扣款</p>
       </div>
       <div class="part2">
         <div class="lists" v-for="(item,id) in data" :key="id">
           <div class="top">
-            <h3><i>国开-XXXX班级</i><em>¥6000</em></h3>
-            <p>共6期，待还<span>3</span>期</p>
-            <p>下期应还<span>300</span>元，请预存到中国工商银行卡</p>
-            <strong v-show="item.state==0">已逾期，请及时还款</strong>
-            <strong v-show="item.state==2"><i class="el-icon-delete"></i></strong>
+            <h3><i>{{item.courseName}}</i><em>¥{{item.amount}}</em></h3>
+            <p>共{{item.stages}}期，待还<span>{{item.residueStages}}</span>期</p>
+            <p v-if="item.stagesStatus==2">订单未生效</p>
+            <p v-else>{{item.stagesStatus==0?'本期应还':(item.stagesStatus==1?'下期应还':'')}}<span>{{item.amountDue}}</span>元，请预存到{{item.bankName}}银行卡</p>
+            <strong v-show="item.overTimeStatus==1">已逾期，请及时还款</strong>
+            <strong v-show="item.overTimeStatus==0" @click='deleteOrderHandle(item.orderId)'><i class="el-icon-delete"></i></strong>
           </div>
           <div class="down">
             <div class="left">
-              <p><span>订单号</span>DJ202011125648</p>
-              <p><span>订单时间</span>2020-12-18 23:00:12</p>
+              <p><span>订单号</span>{{item.orderId}}</p>
+              <p><span>订单时间</span>{{item.createDate}}</p>
             </div>
             <div class="right">
-              <img v-show="item.state==0" src="../../assets/passed.png" />
-              <img v-show="item.state==1" src="../../assets/passing.png" />
-              <img v-show="item.state==2" src="../../assets/unpass.png" />
+              <img v-show="item.auditing==3" src="../../assets/passed.png" />
+              <img v-show="item.auditing==1" src="../../assets/passing.png" />
+              <img v-show="item.auditing==2" src="../../assets/unpass.png" />
             </div>
           </div>
         </div>
@@ -40,18 +41,29 @@
 </template>
 
 <script>
+  import {getUserOrderList,deleteOrder} from '../../server/index.js';
   export default {
     name: 'index',
     data() {
       return {
         no:true,
-        data: [{
-          state: 0,
-        }, {
-          state: 1,
-        }, {
-          state: 2,
-        }],
+        data: [],
+        repayment:''
+      }
+    },
+    created(){
+      getUserOrderList({}).then(res=>{
+        this.data = res.data.userOrderVos;
+        this.repayment = res.data.repayment;
+      })
+    },
+    methods:{
+      deleteOrderHandle(id){
+        deleteOrder({orderId:id}).then(res=>{
+          if(res.code==0){
+            this.$info('删除成功')
+          }
+        })
       }
     }
   }

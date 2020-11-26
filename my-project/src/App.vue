@@ -114,6 +114,10 @@ export default {
     .admin .shop .el-dialog{
       width: 400px;
     }
+    .index .el-input__inner{
+  border:none;
+  padding: 0;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
 
