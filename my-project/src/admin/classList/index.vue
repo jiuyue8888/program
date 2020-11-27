@@ -3,14 +3,14 @@
     <div class="top">
       <h3>账号信息</h3>
       <el-row :gutter="20">
-        <el-col :span="5">商户名称：某默默教育机构</el-col>
-        <el-col :span="5">商户手机号：13623786382</el-col>
+        <el-col :span="5">商户名称：{{data.name}}</el-col>
+        <el-col :span="5">商户手机号：{{data.mobile}}</el-col>
         <el-col :span="8" class="evm">
           商户二维码：
-          <img src="../../assets/pic_id1@3x.png" />
+          <img :src="data.qrCode" />
           <el-button type="primary">保存</el-button>
         </el-col>
-        <el-col :span="6">商户专属分期链接：https://XXXX.com</el-col>
+        <el-col :span="6">商户专属分期链接：{{data.shareUrl}}</el-col>
       </el-row>
     </div>
     <div class="down">
@@ -45,6 +45,7 @@
 
 <script>
 import { getDevCourseList, createCourse, updateCourse,deleteCourse } from '../../server/admin.js';
+import {getDevBusiness} from '../../server/index.js';
 export default {
   name: 'index',
   data() {
@@ -58,11 +59,23 @@ export default {
         examFashion: '',
         name: ''
       },
+      data:{
+        name:'',
+        qrCode:'',
+        mobile:'',
+        shareUrl:'',
+        userKey:''
+      },
       tableData: []
     };
   },
   created() {
     this.getList();
+    getDevBusiness({
+      mobile:window.localStorage.getItem('adminMobile')
+    }).then(res=>{
+      this.data = res.data
+    })
   },
   methods: {
     getList() {

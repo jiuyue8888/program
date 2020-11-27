@@ -5,7 +5,13 @@ axios.create({
 });
 //const http="https://m.doujinfq.com/"
 const http=""
-axios.defaults.headers.common['sessionCode'] = localStorage.getItem('sessionCode');
+
+if(window.location.href.indexOf('/admin')>0){
+  axios.defaults.headers.common['sessionCode'] = window.localStorage.getItem('sessionCode');
+
+}else{
+  axios.defaults.headers.common['sessionCode'] = window.localStorage.getItem('sessionCodeh5');
+}
 
 const getForm = (url,data)=>{
   return axios({
@@ -13,7 +19,7 @@ const getForm = (url,data)=>{
       method: 'get',
       withCredentials: true,
       params: data,
-      //headers: {'content-Type': "application/x-www-form-urlencoded"}
+     headers: {'sessionCode': window.localStorage.getItem('sessionCode')}
   }).then(res=> res.data).catch(err=>console.log('getFormErr',err));
 }
 const postForm = (url,data)=>{
@@ -22,7 +28,7 @@ const postForm = (url,data)=>{
       method: 'post',
       withCredentials: true,
       data: data,
-      //headers: {'content-Type': "application/x-www-form-urlencoded"}
+      headers: {'sessionCode': window.localStorage.getItem('sessionCode')}
   }).then(res=> res.data).catch(err=>console.log('getFormErr',err));
 }
 

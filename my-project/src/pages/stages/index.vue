@@ -1,11 +1,11 @@
 <template>
   <div class="index">
     <h5>教育机构</h5>
-    <h3>广东蓝符教育教育机构</h3>
+    <h3>{{name}}</h3>
     <div class="form">
-      <p><span>分期金额</span>
-
-      <el-input v-model="amount" placeholder="填写金额"></el-input>
+      <p>
+        <span>分期金额</span>
+        <el-input v-model="amount" placeholder="填写金额" @change="check"></el-input>
       </p>
 
 
@@ -22,7 +22,7 @@
         <section @click="show=true;">{{select}}<img src="../../assets/home_ico_arrow@3x(7).png" /></section>
       </p>
     </div>
-    <b @click="submit">立即申请</b>
+    <b :class="btn?'curr':''" @click="submit">立即申请</b>
     <strong><input type="checkbox" checked="true"/>我已阅读并同意<em>《保理付款服务合同》</em></strong>
     <div class="pickFloat" v-show="show">
       <van-picker show-toolbar :columns="columns" @change="onChange" @cancel="cancel" @confirm="confirm"
@@ -34,28 +34,23 @@
 
 <script>
   import {getDevCourseList} from '../../server/index.js';
-  const cities = {
-    浙江: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
-    福建: ['福州', '厦门', '莆田', '三明', '泉州'],
-  };
+
   export default {
     name: 'index',
     data() {
       return {
+        name:window.localStorage.getItem('name'),
         show: false,
         pickerAn: true,
-        columns: [{
-          values: Object.keys(cities)
-        }, {
-          values: cities['浙江']
-        }],
+        columns: [],
         amount:'',
         num:'',
         courseId:'',
         select: '点击选择',
         tag: 0,
+        btn:false,
         arr: [3,6,9,12],
-
+         data:[],
       }
     },
     created(){
@@ -63,21 +58,33 @@
       getDevCourseList({
         userKey:window.localStorage.getItem('userKey')
       }).then(res=>{
-
+        let arr = [];
+        res.data.map(item=>{
+          arr.push(item.courseName)
+        })
+        this.columns = arr
+        this.data = res.data
       })
     },
     methods: {
       onChange(picker, values) {
-        picker.setColumnValues(1, cities[values[0]]);
+
+        this.courseId = values['courseId']
+        //picker.setColumnValues(1, values['courseName']);
       },
       checkTag(id) {
         this.tag = id;
 
       },
       confirm(value) {
-
-        this.select = value[0]+'-'+value[1]
+        this.data.map(item=>{
+          if(value==item.courseName){
+            this.courseId = item.courseId
+          }
+        })
+        this.select = value
         this.cancel();
+        this.check();
       },
       cancel() {
         this.pickerAn = false;
@@ -86,8 +93,30 @@
           this.pickerAn=true
         },500)
       },
+      check(){
+        if(this.amount==''){
+          this.btn = false;
+          //this.$info('请填写分期金额')
+          return;
+        }
+        if(this.select=='点击选择'){
+          this.btn = false;
+          //this.$info('请选择分期课程')
+          return;
+        }
+        this.btn = true;
+      },
       submit(){
         //this.$info('缺少教育机构，请联系对方分期',2)
+        if(this.amount==''){
+          this.$info('请填写分期金额')
+          return;
+        }
+        if(this.select=='点击选择'){
+          this.$info('请选择分期课程')
+          return;
+        }
+
         this.$router.push({
           path:'./steps',
           query:{

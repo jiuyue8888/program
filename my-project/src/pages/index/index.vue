@@ -39,6 +39,7 @@
         mobile:window.localStorage.getItem('mobile')
       }).then(res=>{
         window.localStorage.setItem('userKey',res.data.userKey)
+        window.localStorage.setItem('name',res.data.name)
       })
     },
     methods:{

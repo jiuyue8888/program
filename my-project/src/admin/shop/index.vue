@@ -26,8 +26,8 @@
       <el-input v-model="inputData.mobile" placeholder="请输入商户手机号"></el-input>
       <h4>商户名称</h4>
       <el-input v-model="inputData.name" placeholder="请输入商户名称"></el-input>
-      <h4>登陆密码</h4>
-      <el-input v-model="inputData.password" placeholder="请输入登陆密码"></el-input>
+      <h4>登录密码</h4>
+      <el-input v-model="inputData.password" placeholder="请输入登录密码"></el-input>
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="popShow = false">取 消</el-button>

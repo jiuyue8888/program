@@ -127,7 +127,7 @@
   import area from "./area.js";
   import {
     upload,
-    createOrder
+    createOrder,sendLoginMessage
   } from "../../server/index.js";
   export default {
     name: 'index',
@@ -172,7 +172,7 @@
         time: '发送验证码',
         columns: ['父亲', '母亲', '配偶'],
         areaList: area,
-        active: 2, //当前进度
+        active: 0, //当前进度
         showArea: false, //地址联动显示隐藏
         showGs: false, //地址联动显示隐藏
         showGx: false, //亲属关系显示隐藏
@@ -468,6 +468,9 @@
 
         let _t = 60;
         this.time = _t + "s重新获取";
+        sendLoginMessage({
+          mobile:this.formData.bankMobile
+        }).then(res=>{})
         const st = setInterval(() => {
           _t--;
           if (_t == 0) {

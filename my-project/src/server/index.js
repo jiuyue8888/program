@@ -1,11 +1,16 @@
 import axios from 'axios';
+
 axios.create({
   baseURL:'/product',
   timeout:30000
 });
 //const http="https://m.doujinfq.com/"
 const http=""
+
+if(window.location.href.indexOf('/admin')==-1){
 axios.defaults.headers.common['sessionCode'] = localStorage.getItem('sessionCodeh5');
+}
+console.log(localStorage.getItem('sessionCodeh5'))
 const formObj = (params)=>{
     var formData = new FormData();
     for (let k in params) {
@@ -20,7 +25,7 @@ const getForm = (url,data)=>{
       method: 'get',
       withCredentials: true,
       params: data,
-      //headers: {'content-Type': "application/x-www-form-urlencoded"}
+      headers: {'sessionCode': window.localStorage.getItem('sessionCodeh5')}
   }).then(res=> res.data).catch(err=>console.log('getFormErr',err));
 }
 const postForm = (url,data)=>{
@@ -29,7 +34,7 @@ const postForm = (url,data)=>{
       method: 'post',
       withCredentials: true,
       data: data,
-      //headers: {'content-Type': "application/x-www-form-urlencoded"}
+      headers: {'sessionCode': window.localStorage.getItem('sessionCodeh5')}
   }).then(res=> res.data).catch(err=>console.log('getFormErr',err));
 }
 

@@ -52,6 +52,7 @@
   import shop from '../shop/index.vue';
   import classList from '../classList/index.vue';
   import {getDevBusinessList,logout} from '../../server/admin.js';
+
   export default {
     name: 'index',
     components:{
@@ -70,7 +71,7 @@
       }
     },
     created(){
-
+      
     },
     methods:{
       nav(n){

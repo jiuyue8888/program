@@ -52,7 +52,10 @@
           mobile:this.tel,
           password:md5(this.password)
         }).then(res=>{
+          
           if(res.data.sessionCode){
+            window.localStorage.setItem('adminMobile',this.tel)
+            window.localStorage.setItem('sessionCode','')
             window.localStorage.setItem('sessionCode',res.data.sessionCode)
             window.localStorage.setItem('roleStatus',res.data.roleStatus)
 
