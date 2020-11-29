@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="3">
         <div class="left">
-          <div class="top"><img src="../../assets/logo.png"/>必过分期</div>
+          <div class="top"><img src="../../assets/logo1.png"/>斗金分期</div>
           <div class="down" v-show="roleStatus==1">
             <p :class="navId==0?'curr':''" @click="nav(0)"><van-icon name="balance-list-o" color="#fff"/>订单管理</p>
             <p :class="navId==1?'curr':''" @click="nav(1)"><van-icon name="shop-o" color="#fff"/>商户管理</p>
@@ -71,7 +71,7 @@
       }
     },
     created(){
-      
+
     },
     methods:{
       nav(n){
@@ -85,6 +85,7 @@
         logout({}).then(res=>{
           if(res.code==0){
             this.$router.push('./')
+            window.localStorage.setItem('sessionCode','')
           }
         })
       }

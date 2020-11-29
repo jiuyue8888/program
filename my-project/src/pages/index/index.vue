@@ -1,12 +1,12 @@
 <template>
   <div class="index">
     <div class="head">
-      <img src="../../assets/logo.png" />
-      <h3>必过分期</h3>
-      <p>必过分期，轻松助你逢考必过</p>
+      <img src="../../assets/logo1.png" />
+      <h3>斗金分期</h3>
+      <p>斗金分期，轻松助你逢考必过</p>
     </div>
     <div class="list">
-      <div class="listBtn" @click="$router.push('./stages')">
+      <div class="listBtn" @click="login?$router.push('./stages'):$router.push('./login')">
         <div class="left">
           <h3>我要分期<img src="../../assets/indexh3.png" /></h3>
           <p>免息分期，秒速审批，安全可靠的金融助学神器</p>
@@ -14,12 +14,12 @@
         <div class="right"><img src="../../assets/indexicon0.png" /></div>
       </div>
 
-      <div class="listBtn" @click="$router.push('./myOrder')">
+      <div class="listBtn" @click="login?$router.push('./myOrder'):$router.push('./login')">
         <div class="left">
           <h3>我的订单<img src="../../assets/indexh3.png" /></h3>
           <p>可查询申请结果，请按时还款，保持良好信用，逾期未还，拉低信用</p>
         </div>
-        <div class="right"><img src="../../assets/indexicon0.png" /></div>
+        <div class="right"><img src="../../assets/indexicon1.png" /></div>
       </div>
     </div>
   </div>
@@ -31,15 +31,24 @@
     name: 'index',
     data() {
       return {
-
+        login:window.localStorage.getItem('sessionCodeh5')&&window.localStorage.getItem('sessionCodeh5')!=''
       }
     },
     created(){
+      
+      const that = this;
+
       getDevBusiness({
         mobile:window.localStorage.getItem('mobile')
       }).then(res=>{
-        window.localStorage.setItem('userKey',res.data.userKey)
-        window.localStorage.setItem('name',res.data.name)
+        if(that.$route.query.userKey){
+          window.localStorage.setItem('userKey',that.$route.query.userKey)
+          window.localStorage.setItem('name',that.$route.query.bussinessName)
+        }else{
+          window.localStorage.setItem('userKey',res.data.userKey)
+          window.localStorage.setItem('name',res.data.name)
+        }
+
       })
     },
     methods:{

@@ -1,9 +1,9 @@
 <template>
   <div class="index">
     <div class="head">
-      <img src="../../assets/logo.png" />
-      <h3>必过分期</h3>
-      <p>必过分期，轻松助你逢考必过</p>
+      <img src="../../assets/logo1.png" />
+      <h3>斗金分期</h3>
+      <p>斗金分期，轻松助你逢考必过</p>
     </div>
     <div class="login">
       <p><img src="../../assets/login_ico_phone@3x(2).png">
@@ -15,7 +15,7 @@
       <span @click="getCode" :class="isCode?'':'curr'">{{time}}</span></p>
       <i v-show="false">{{err}}</i>
       <b :class="login?'curr':''" @click='loginHandle'>立即登录</b>
-      <strong>登录代表您同意<em @click="$router.push('./xy')">《必过分期用户服务协议》</em></strong>
+      <strong>登录代表您同意<em @click="$router.push('./xy')">《斗金分期用户服务协议》</em></strong>
     </div>
   </div>
 </template>
