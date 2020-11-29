@@ -120,8 +120,12 @@ export default {
     },
     //导出订单
     excel(){
-      window.location.href = `https://m.doujinfq.com/product/web/inner/api/exported?
-      orderStatus=${this.pageData.orderStatus}&orderCode=${this.pageData.orderCode}&endDate=${this.pageData.endDate}&startDate=${this.pageData.startDate}`
+      window.location.href = `http://m.bgfenqi.com/product/web/inner/api/exported?
+	  orderStatus=${this.pageData.orderStatus}&
+	  orderCode=${this.pageData.orderCode}&
+	  endDate=${this.pageData.endDate}&
+	  startDate=${this.pageData.startDate}&
+	  sessionCode=${window.localStorage.getItem('sessionCode')}`
 
     },
     //删除订单
