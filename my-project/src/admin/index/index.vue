@@ -27,7 +27,7 @@
           <div class="down">
             <div class="down-body">
               <div v-show="navId==0">
-                <vorder @detail="detailHandle" v-show="data==''"/>
+                <vorder @detail="detailHandle" v-show="data==''" :key="data.id"/>
                 <vdetail @detail="detailHandle" v-show="data!==''" :data="data"/>
               </div>
               <div v-show="navId==1">

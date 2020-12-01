@@ -22,7 +22,7 @@
           <section><img :src="data.receiptImg"><i class="el-icon-search" @click="bigImg(2)"></i></section>
 
           <h3>审核状态</h3>
-          <p :class="'status'+data.auditing">{{data.auditing== 1 ? '待审核' : (data.auditing == 2 ? '审核未通过' : '审核通过')}}</p>
+          <p :class="'status'+data.auditing">{{data.auditing== 1 ? '待审核' : (data.auditing == 2 ? '被拒绝' : '审核通过')}}</p>
           <el-button type="primary" @click="pass(3)" v-show="data.auditing==1">审核通过</el-button>
           <el-button type="success" @click="pass(2)" v-show="data.auditing==1">拒绝通过</el-button>
         </div>

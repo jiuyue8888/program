@@ -36,6 +36,7 @@ const postForm = (url,data)=>{
       data: data,
       headers: {'sessionCode': window.localStorage.getItem('sessionCode')}
   }).then(res=> {
+    
     if(res.data.code=='905' || res.data.code=='919'){
       window.location.href = './#/admin'
     }else{

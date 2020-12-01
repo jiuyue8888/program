@@ -11,7 +11,7 @@
       <div class="part1" v-else>
         <b>当前应还款</b>
         <p>￥<em>{{repayment}}</em>元</p>
-        <p>每月10号进行扣款</p>
+        <p>依订单过审时间确定每月10号或25号进行扣款</p>
       </div>
       <div class="part2">
         <div class="lists" v-for="(item,id) in data" :key="id">

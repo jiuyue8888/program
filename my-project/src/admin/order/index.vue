@@ -103,13 +103,15 @@ export default {
           rows: this.rows
         })
       ).then(res => {
-
-        this.tableData = res.data.content;
-        this.totalElements = res.data.totalElements;
+        if(res.code==0){
+          this.tableData = res.data.content;
+          this.totalElements = res.data.totalElements;
+        }
+        
       });
     },
     statusShow(n){
-      return n == 1 ? '待审核' : (n == 2 ? '审核未通过' : '审核通过')
+      return n == 1 ? '待审核' : (n == 2 ? '被拒绝' : '审核通过')
     },
     detailHandle(data) {
       this.$emit('detail', data);
@@ -134,8 +136,9 @@ export default {
           deleteOrder(id).then(res => {
             if (res.code == 0) {
               this.$info('删除成功');
+              this.getList();
             }
-            this.getList();
+            
           });
         })
         .catch(() => {
