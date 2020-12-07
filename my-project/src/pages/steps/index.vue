@@ -128,7 +128,7 @@
 <script>
   import area from "./area.js";
   import {
-    upload,
+    upload,bindcard,
     createOrder,sendLoginMessage
   } from "../../server/index.js";
   export default {
@@ -182,7 +182,7 @@
         showGs: false, //地址联动显示隐藏
         showGx: false, //亲属关系显示隐藏
         btn: false, //按钮样式
-
+        orderId:''
       }
     },
     created() {
@@ -486,7 +486,14 @@
           return;
         }
         const that = this;
-
+        //绑定银行卡生成预订单接口
+        bindcard(this.formData).then(res=>{
+          if(res.code==0){
+            Object.assign(this.formData, {
+              orderId: res.data.orderId
+            })
+          }
+        })
         let _t = 60;
         this.time = _t + "s重新获取";
         sendLoginMessage({
