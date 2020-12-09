@@ -32,7 +32,16 @@
       layout="prev, pager, next" :total="totalPages" @current-change="currentChange"></el-pagination>
     </div>
     <el-dialog :title="!inputData.id  ? '新增课程(商品)' : '编辑课程(商品)'" :visible.sync="popShow">
-      <el-input v-model="inputData.examFashion" placeholder="请输入考试方式"></el-input>
+
+      <el-select v-model="inputData.examFashion" placeholder="请选择考试方式" style="width: 100%;">
+          <el-option
+            v-for="item in options"
+            :key="item.examFashionCode"
+            :label="item.examFashionName"
+            :value="item.examFashionName">
+          </el-option>
+        </el-select>
+
       <div style="height: 20px;"></div>
       <el-input v-model="inputData.name" placeholder="请输入课程名称"></el-input>
       <div slot="footer" class="dialog-footer">
@@ -44,7 +53,7 @@
 </template>
 
 <script>
-import { getDevCourseList, createCourse, updateCourse,deleteCourse } from '../../server/admin.js';
+import { getDevCourseList, createCourse, updateCourse,deleteCourse,getExamFashionConfigList } from '../../server/admin.js';
 import {getDevBusiness} from '../../server/index.js';
 export default {
   name: 'index',
@@ -59,6 +68,7 @@ export default {
         examFashion: '',
         name: ''
       },
+      options:[],
       data:{
         name:'',
         qrCode:'',
@@ -75,6 +85,10 @@ export default {
       mobile:window.localStorage.getItem('adminMobile')
     }).then(res=>{
       this.data = res.data
+    })
+
+    getExamFashionConfigList({}).then(res=>{
+      this.options = res.data;
     })
   },
   methods: {

@@ -71,7 +71,7 @@
       <div class="p3" v-show="active==2">
         <h3>选择支持的银行</h3>
         <div class="yh" :style="height?'':'maxHeight:2.8rem'">
-          <el-tag v-for="(item,id) in bank" :key="id" :class="item==formData.bankName?'curr':''" @click="getYH(item)">{{item}}</el-tag>
+          <el-tag v-for="(item,id) in bank" :key="id" :class="item==formData.bankName?'curr':''" @click="getYH(item.bankName)">{{item.bankName}}</el-tag>
         </div>
         <div class="moreyh" v-show="bank.length>8&&!height" @click="height=true">查看更多</div>
         <div class="moreyh" v-show="bank.length>8&&height" @click="height=false">收起</div>
@@ -128,7 +128,7 @@
 <script>
   import area from "./area.js";
   import {
-    upload,
+    upload,bindcard,getBankList,
     createOrder,sendLoginMessage
   } from "../../server/index.js";
   export default {
@@ -176,17 +176,20 @@
         time: '发送验证码',
         columns: ['父亲', '母亲', '配偶'],
         areaList: area,
-        bank:["农业银行","中国银行","建设银行招商银行","招商银行招商银行","农业银行"],
+        bank:[],
         active: 0, //当前进度
         showArea: false, //地址联动显示隐藏
         showGs: false, //地址联动显示隐藏
         showGx: false, //亲属关系显示隐藏
         btn: false, //按钮样式
-
+		orderId:''
       }
     },
     created() {
       //console.log(this.$route.query.stages)
+	  getBankList({}).then(res=>{
+	    this.bank = res.data
+	  })
     },
     methods: {
       openNewPage(){
@@ -486,11 +489,19 @@
           return;
         }
         const that = this;
-
+		//绑定银行卡生成预订单接口
+		bindcard(this.formData).then(res=>{
+		  if(res.code==0){
+		    Object.assign(this.formData, {
+		      orderId: res.data.orderId
+		    })
+		  }
+		})
         let _t = 60;
         this.time = _t + "s重新获取";
         sendLoginMessage({
-          mobile:this.formData.bankMobile
+          mobile:this.formData.bankMobile,
+		  orderId:this.formData.orderId
         }).then(res=>{})
         const st = setInterval(() => {
           _t--;

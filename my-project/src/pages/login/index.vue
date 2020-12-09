@@ -68,6 +68,7 @@
 
       },
       loginHandle(){
+        const that = this;
         if(!this.login){
           return;
         }
@@ -76,7 +77,13 @@
           veriCode:this.code
         }).then(res=>{
           if(res.code==0){
-            this.$router.push('./')
+            this.$router.push({
+              path:'./',
+              query:{
+                userKey:that.$route.query.userKey,
+                bussinessName:that.$route.query.bussinessName
+              }
+            })
             window.localStorage.setItem('sessionCodeh5',res.data.sessionCode)
             window.localStorage.setItem('mobile',res.data.mobile)
           }else{

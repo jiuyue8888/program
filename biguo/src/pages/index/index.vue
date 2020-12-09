@@ -6,7 +6,7 @@
       <p>必过分期，轻松助你逢考必过</p>
     </div>
     <div class="list">
-      <div class="listBtn" @click="login?$router.push('./stages'):$router.push('./login')">
+      <div class="listBtn" @click="btn">
         <div class="left">
           <h3>我要分期<img src="../../assets/indexh3.png" /></h3>
           <p>免息分期，秒速审批，安全可靠的金融助学神器</p>
@@ -52,7 +52,27 @@
       })
     },
     methods:{
-
+		btn(){
+        const that = this;
+        
+        if(this.login){
+          this.$router.push({
+            path:'./stages',
+            query:{
+              userKey:that.$route.query.userKey,
+              bussinessName:that.$route.query.bussinessName
+            }
+          })
+        }else{
+          this.$router.push({
+            path:'./login',
+            query:{
+              userKey:that.$route.query.userKey,
+              bussinessName:that.$route.query.bussinessName
+            }
+          })
+        }
+      },
     }
   }
 </script>

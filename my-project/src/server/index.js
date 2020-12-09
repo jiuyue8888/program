@@ -29,7 +29,10 @@ const getForm = (url,data)=>{
   }).then(res=> {
 
     if(res.data.code=='905' || res.data.code=='919'){
-      window.location.href = './#/login'
+      const url = window.location.hash.indexOf('?')>-1?
+      './#/login'+window.location.hash.substr(window.location.hash.indexOf('?'),window.location.hash.length-1):'./#/login';
+
+      window.location.href = url
     }else{
       return res.data;
     }
@@ -44,7 +47,10 @@ const postForm = (url,data)=>{
       headers: {'sessionCode': window.localStorage.getItem('sessionCodeh5')}
   }).then(res=> {
     if(res.data.code=='905' || res.data.code=='919'){
-      window.location.href = './#/login'
+      const url = window.location.hash.indexOf('?')>-1?
+      './#/login'+window.location.hash.substr(window.location.hash.indexOf('?'),window.location.hash.length-1):'./#/login';
+
+      window.location.href = url
     }else{
       return res.data;
     }
@@ -68,3 +74,4 @@ export const getUserOrderList = data=>getForm('/product/mobile/outer/api/getUser
 export const deleteOrder = data=>postForm('/product/mobile/outer/api/deleteOrder',formObj(data));
 //绑定银行卡生成预订单接口
 export const bindcard = data=>postForm('/product/mobile/outer/api/bindcard',formObj(data));
+export const getBankList = data=>getForm('/product/mobile/outer/api/getBankList',formObj(data));

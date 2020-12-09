@@ -54,6 +54,8 @@
         tag: 3,
         tagId: 0,
         btn:false,
+		p1:[],
+		p2:[],
         arr: [3,6,9,12],
          data:[],
       }
@@ -64,18 +66,39 @@
         window.localStorage.setItem('userKey',this.$route.query.userKey)
       }
       if(!this.login){
-        this.$router.push('./login')
+        this.$router.push({
+          path:'./login',
+          query:{
+            userKey:that.$route.query.userKey,
+            bussinessName:that.$route.query.bussinessName
+          }
+        })
         return;
       }
       getDevCourseList({
         userKey:this.$route.query.userKey?this.$route.query.userKey:window.localStorage.getItem('userKey')
       }).then(res=>{
-        let arr = [];
+		  
+        let p1=[];
+        let p2=[];
+        let p3=[];
         res.data.map(item=>{
-          arr.push('<span class="tag">'+item.examFashion+'</span> <span class="tag">'+item.courseName+'</span>')
+          p1.push(item.examFashion)
+          p2.push(item.courseList.map(item=>item.courseName))
+          p3.push(item.courseList.map(item=>item.courseId))
+        
         })
-        this.columns = arr
-        this.data = res.data
+        this.columns = [{
+          values:p1,
+          className: 'column1',
+        },{
+          values: p2[0],
+          className: 'column2',
+          defaultIndex: 2,
+        }]
+        this.p1 = p1
+        this.p2 = p2
+        this.data = p3
       })
     },
     methods: {
@@ -86,8 +109,8 @@
       },
       onChange(picker, values) {
 
-        this.courseId = values['courseId']
-        //picker.setColumnValues(1, values['courseName']);
+        const id = this.p1.indexOf(value[0]);
+        picker.setColumnValues(1, this.p2[id]);
       },
       checkTag(item,id) {
         this.tag = item;
@@ -95,8 +118,8 @@
 
       },
       confirm(value,id) {
-        this.courseId = this.data[id].courseId;
-        this.select = this.data[id].examFashion+'-'+this.data[id].courseName
+        this.courseId = this.data[id[0]][id[1]];
+        this.select = value[0]+'-'+value[1]
         this.cancel();
         this.check();
       },
