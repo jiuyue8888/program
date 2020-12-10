@@ -73,5 +73,5 @@ export const getUserOrderList = data=>getForm('/product/mobile/outer/api/getUser
 //h5用户删除订单接口
 export const deleteOrder = data=>postForm('/product/mobile/outer/api/deleteOrder',formObj(data));
 //绑定银行卡生成预订单接口
-export const bindcard = data=>postForm('/product/mobile/outer/api/bindcard',formObj(data));
+export const bindcard = data=>postForm('/product/mobile/outer/api/bindcard',data);
 export const getBankList = data=>getForm('/product/mobile/outer/api/getBankList',formObj(data));

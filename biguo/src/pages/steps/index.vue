@@ -122,6 +122,10 @@
     <van-action-sheet v-model="showGx">
       <van-picker :columns="columns" @confirm="onConfirm" @cancel="onCancel" show-toolbar />
     </van-action-sheet>
+	<div class="newPage" v-show="newPage">
+	  <span @click="newPage=false">返回</span>
+	  <iframe src="./#/vts"></iframe>
+	</div>
   </div>
 </template>
 
@@ -182,6 +186,7 @@
         showGs: false, //地址联动显示隐藏
         showGx: false, //亲属关系显示隐藏
         btn: false, //按钮样式
+        newPage: false, //按钮样式
 		orderId:''
       }
     },
@@ -196,7 +201,8 @@
          let newUrl = this.$router.resolve({
                   path: "/vts"
                 });
-        window.open(newUrl.href, "_blank");
+				this.newPage=true;
+        //window.open(newUrl.href, "_blank");
       },
       //第1步
       afterRead1(file) {
@@ -489,20 +495,26 @@
           return;
         }
         const that = this;
+		Object.assign(this.formData, {
+		  companyAdress: this.formData.gsAdd + ',' + this.formData.gsDetail,
+		  area: this.formData.address + ',' + this.formData.detail,
+		})
 		//绑定银行卡生成预订单接口
 		bindcard(this.formData).then(res=>{
 		  if(res.code==0){
 		    Object.assign(this.formData, {
 		      orderId: res.data.orderId
 		    })
+		  }else{
+			  this.$info(res.msg)
 		  }
 		})
         let _t = 60;
         this.time = _t + "s重新获取";
-        sendLoginMessage({
+        /*sendLoginMessage({
           mobile:this.formData.bankMobile,
 		  orderId:this.formData.orderId
-        }).then(res=>{})
+        }).then(res=>{})*/
         const st = setInterval(() => {
           _t--;
           if (_t == 0) {

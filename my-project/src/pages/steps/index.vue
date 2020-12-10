@@ -122,6 +122,10 @@
     <van-action-sheet v-model="showGx">
       <van-picker :columns="columns" @confirm="onConfirm" @cancel="onCancel" show-toolbar />
     </van-action-sheet>
+    <div class="newPage" v-show="newPage">
+      <span @click="newPage=false">返回</span>
+      <iframe src="./#/vts"></iframe>
+    </div>
   </div>
 </template>
 
@@ -182,6 +186,7 @@
         showGs: false, //地址联动显示隐藏
         showGx: false, //亲属关系显示隐藏
         btn: false, //按钮样式
+        newPage: false,
         orderId:''
       }
     },
@@ -196,7 +201,8 @@
          let newUrl = this.$router.resolve({
                   path: "/vts"
                 });
-        window.open(newUrl.href, "_blank");
+        //window.open(newUrl.href, "_blank");
+        this.newPage = true;
       },
       //第1步
       afterRead1(file) {
@@ -490,19 +496,26 @@
         }
         const that = this;
         //绑定银行卡生成预订单接口
+        Object.assign(this.formData, {
+          companyAdress: this.formData.gsAdd + ',' + this.formData.gsDetail,
+          area: this.formData.address + ',' + this.formData.detail,
+        })
         bindcard(this.formData).then(res=>{
           if(res.code==0){
             Object.assign(this.formData, {
               orderId: res.data.orderId
             })
+          }else{
+             this.$info(res.msg)
           }
         })
         let _t = 60;
         this.time = _t + "s重新获取";
+        /*
         sendLoginMessage({
           mobile:this.formData.bankMobile,
           orderId:this.formData.orderId
-        }).then(res=>{})
+        }).then(res=>{})*/
         const st = setInterval(() => {
           _t--;
           if (_t == 0) {
@@ -540,6 +553,49 @@
     background: #fff;
     box-sizing: border-box;
     padding-top: 0.3rem;
+  }
+  .newPage{
+    position: fixed;
+    left: 0;
+    top:0;
+    z-index: 99;
+    width: 100%;
+    height: 100vh;
+    background: #F8F8F8;
+  }
+  .newPage span{
+    position: absolute;
+    top: 0.1rem;
+    left: 0;
+    z-index: 9;
+    width: 1.3rem;
+        height: 0.68rem;
+        margin-bottom: 0.1rem;
+        background: #EF3E2F;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        font-size: 0.28rem;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #FFFFFF;
+        line-height: 0.68rem;
+  }
+  .newPage iframe{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 0.3rem;
+    overflow: auto;
+    outline: none;
+    border: none;
   }
 
   .photo {

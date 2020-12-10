@@ -6,7 +6,7 @@
         <el-table-column prop="name" label="商户名称" width="180px"></el-table-column>
         <el-table-column prop="mobile" label="手机号"></el-table-column>
         <el-table-column prop="shareUrl" label="商户专属分期链接"></el-table-column>
-        <el-table-column label="二维码">
+        <el-table-column label="二维码" width="120px">
           <template slot-scope="scope">
             <img :src="scope.row.qrCode" />
           </template>

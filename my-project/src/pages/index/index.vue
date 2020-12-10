@@ -37,19 +37,25 @@
     created(){
 
       const that = this;
-
-      getDevBusiness({
-        mobile:window.localStorage.getItem('mobile')
-      }).then(res=>{
-        if(that.$route.query.userKey){
+      if(that.$route.query.userKey){
+        getDevBusiness({
+          userKey:that.$route.query.userKey
+        }).then(res=>{
           window.localStorage.setItem('userKey',that.$route.query.userKey)
-          window.localStorage.setItem('name',that.$route.query.bussinessName)
-        }else{
+          window.localStorage.setItem('name',res.data.name)
+        
+        })
+      }else{
+        getDevBusiness({
+          mobile:window.localStorage.getItem('mobile')
+        }).then(res=>{
           window.localStorage.setItem('userKey',res.data.userKey)
           window.localStorage.setItem('name',res.data.name)
-        }
+        
+        })
+      }
 
-      })
+      
     },
     methods:{
       btn(){
@@ -60,7 +66,7 @@
             path:'./stages',
             query:{
               userKey:that.$route.query.userKey,
-              bussinessName:that.$route.query.bussinessName
+              bussinessName: window.localStorage.getItem('name')
             }
           })
         }else{
@@ -68,7 +74,7 @@
             path:'./login',
             query:{
               userKey:that.$route.query.userKey,
-              bussinessName:that.$route.query.bussinessName
+              bussinessName:window.localStorage.getItem('name')
             }
           })
         }

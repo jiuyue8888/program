@@ -7,7 +7,7 @@
         <el-table-column prop="mobile" label="手机号"></el-table-column>
         <el-table-column prop="shareUrl" label="商户专属分期链接"></el-table-column>
         <el-table-column label="二维码">
-          <template slot-scope="scope">
+          <template slot-scope="scope" width="120px">
             <img :src="scope.row.qrCode" />
           </template>
         </el-table-column>
