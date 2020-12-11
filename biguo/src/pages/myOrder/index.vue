@@ -21,7 +21,7 @@
             <p v-if="item.stagesStatus==2">订单未生效</p>
             <p v-else>{{item.stagesStatus==0?'本期应还':(item.stagesStatus==1?'下期应还':'')}}<span>{{item.amountDue}}</span>元，请预存到{{item.bankName}}银行卡</p>
             <strong v-show="item.overTimeStatus==1">已逾期，请及时还款</strong>
-            <strong v-show="item.overTimeStatus==0&&item.auditing!=3" @click='deleteOrderHandle(item.orderId)'><i class="el-icon-delete"></i></strong>
+            <strong v-show="item.auditing==2" @click='deleteOrderHandle(item.orderId)'><i class="el-icon-delete"></i></strong>
           </div>
           <div class="down">
             <div class="left">
