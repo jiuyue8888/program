@@ -22,7 +22,7 @@
       <el-table-column prop="orderId" label="订单号" width="110px"></el-table-column>
       <el-table-column prop="name" label="姓名" width="80px"></el-table-column>
       <el-table-column prop="idCardNumber" label="身份证号" width="170px"></el-table-column>
-      <el-table-column prop="auditing" label="分期期数" width="80px"></el-table-column>
+      <el-table-column prop="stages" label="分期期数" width="80px"></el-table-column>
       <el-table-column prop="amount" label="分期金额" width="80px"></el-table-column>
       <el-table-column prop="courseName" label="课程名称"></el-table-column>
       <el-table-column prop="createdTime" label="创建时间" width="100px"></el-table-column>

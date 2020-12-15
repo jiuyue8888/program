@@ -36,7 +36,7 @@ const postForm = (url,data)=>{
       data: data,
       headers: {'sessionCode': window.localStorage.getItem('sessionCode')}
   }).then(res=> {
-    
+
     if(res.data.code=='905' || res.data.code=='919'){
       window.location.href = './#/admin'
     }else{
@@ -56,7 +56,7 @@ export const deleteDevBusiness = data=>{
       method: 'post',
       withCredentials: true,
       //data: data,
-      //headers: {'content-Type': "application/x-www-form-urlencoded"}
+      headers: {'sessionCode': window.localStorage.getItem('sessionCode')}
   }).then(res=> res.data).catch(err=>console.log('getFormErr',err));
 };
 //管理端用户新增接口
@@ -71,7 +71,7 @@ export const deleteCourse = data=>{
         method: 'post',
         withCredentials: true,
         //data: data,
-        //headers: {'content-Type': "application/x-www-form-urlencoded"}
+        headers: {'sessionCode': window.localStorage.getItem('sessionCode')}
     }).then(res=> res.data).catch(err=>console.log('getFormErr',err));
 };
 //理端课程新增接口
@@ -85,7 +85,7 @@ export const deleteOrder = data=>{
       method: 'post',
       withCredentials: true,
       //data: data,
-      //headers: {'content-Type': "application/x-www-form-urlencoded"}
+      headers: {'sessionCode': window.localStorage.getItem('sessionCode')}
   }).then(res=> res.data).catch(err=>console.log('getFormErr',err));
 };
 //管理端订单审核接口
@@ -97,7 +97,7 @@ export const verify = data=>{
       method: 'post',
       withCredentials: true,
       //data: data,
-      //headers: {'content-Type': "application/x-www-form-urlencoded"}
+      headers: {'sessionCode': window.localStorage.getItem('sessionCode')}
   }).then(res=> res.data).catch(err=>console.log('getFormErr',err));
 };
 //理端订单数据导出接口
@@ -109,4 +109,3 @@ export const getDevBusinessList = data=>getForm('/product/web/inner/api/getDevBu
 export const getDveOrderList = data=>getForm('/product/web/inner/api/getDveOrderList',data);
 //管理端获取课程列表接口
 export const getDevCourseList = data=>getForm('/product/web/inner/api/getDevCourseList',data);
-export const getExamFashionConfigList = data=>getForm('/product/web/inner/api/getExamFashionConfigList',data);

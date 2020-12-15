@@ -55,7 +55,7 @@ export const deleteDevBusiness = data=>{
       method: 'post',
       withCredentials: true,
       //data: data,
-      //headers: {'content-Type': "application/x-www-form-urlencoded"}
+      headers: {'sessionCode': window.localStorage.getItem('sessionCode')}
   }).then(res=> res.data).catch(err=>console.log('getFormErr',err));
 };
 //管理端用户新增接口
@@ -70,7 +70,7 @@ export const deleteCourse = data=>{
         method: 'post',
         withCredentials: true,
         //data: data,
-        //headers: {'content-Type': "application/x-www-form-urlencoded"}
+        headers: {'sessionCode': window.localStorage.getItem('sessionCode')}
     }).then(res=> res.data).catch(err=>console.log('getFormErr',err));
 };
 //理端课程新增接口
@@ -84,7 +84,7 @@ export const deleteOrder = data=>{
       method: 'post',
       withCredentials: true,
       //data: data,
-      //headers: {'content-Type': "application/x-www-form-urlencoded"}
+      headers: {'sessionCode': window.localStorage.getItem('sessionCode')}
   }).then(res=> res.data).catch(err=>console.log('getFormErr',err));
 };
 //管理端订单审核接口
@@ -96,7 +96,7 @@ export const verify = data=>{
       method: 'post',
       withCredentials: true,
       //data: data,
-      //headers: {'content-Type': "application/x-www-form-urlencoded"}
+      headers: {'sessionCode': window.localStorage.getItem('sessionCode')}
   }).then(res=> res.data).catch(err=>console.log('getFormErr',err));
 };
 //理端订单数据导出接口
