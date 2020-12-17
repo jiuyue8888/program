@@ -109,3 +109,4 @@ export const getDevBusinessList = data=>getForm('/product/web/inner/api/getDevBu
 export const getDveOrderList = data=>getForm('/product/web/inner/api/getDveOrderList',data);
 //管理端获取课程列表接口
 export const getDevCourseList = data=>getForm('/product/web/inner/api/getDevCourseList',data);
+export const getExamFashionConfigList = data=>getForm('/product/web/inner/api/getExamFashionConfigList',data);
