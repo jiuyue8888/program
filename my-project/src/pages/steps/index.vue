@@ -491,9 +491,7 @@
       //第三部发送验证码
 
       sendCode() {
-        if (this.time !== '发送验证码') {
-          return;
-        }
+        
         const that = this;
         //绑定银行卡生成预订单接口
         Object.assign(this.formData, {
@@ -509,6 +507,9 @@
              this.$info(res.msg)
           }
         })
+        if (this.time !== '发送验证码') {
+          return;
+        }
         let _t = 60;
         this.time = _t + "s重新获取";
         /*

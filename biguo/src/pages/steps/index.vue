@@ -71,7 +71,7 @@
       <div class="p3" v-show="active==2">
         <h3>选择支持的银行</h3>
         <div class="yh" :style="height?'':'maxHeight:2.8rem'">
-          <el-tag v-for="(item,id) in bank" :key="id" :class="item==formData.bankName?'curr':''" @click="getYH(item.bankName)">{{item.bankName}}</el-tag>
+          <el-tag v-for="(item,id) in bank" :key="id" :class="item.bankName==formData.bankName?'curr':''" @click="getYH(item.bankName)">{{item.bankName}}</el-tag>
         </div>
         <div class="moreyh" v-show="bank.length>8&&!height" @click="height=true">查看更多</div>
         <div class="moreyh" v-show="bank.length>8&&height" @click="height=false">收起</div>
@@ -491,9 +491,7 @@
       //第三部发送验证码
 
       sendCode() {
-        if (this.time !== '发送验证码') {
-          return;
-        }
+        
         const that = this;
 		Object.assign(this.formData, {
 		  companyAdress: this.formData.gsAdd + ',' + this.formData.gsDetail,
@@ -509,6 +507,9 @@
 			  this.$info(res.msg)
 		  }
 		})
+		if (this.time !== '发送验证码') {
+		  return;
+		}
         let _t = 60;
         this.time = _t + "s重新获取";
         /*sendLoginMessage({
@@ -552,6 +553,49 @@
     background: #fff;
     box-sizing: border-box;
     padding-top: 0.3rem;
+  }
+.newPage{
+    position: fixed;
+    left: 0;
+    top:0;
+    z-index: 99;
+    width: 100%;
+    height: 100vh;
+    background: #F8F8F8;
+  }
+  .newPage span{
+    position: absolute;
+    top: 0.1rem;
+    left: 0;
+    z-index: 9;
+    width: 1.3rem;
+        height: 0.68rem;
+        margin-bottom: 0.1rem;
+        background: #EF3E2F;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        font-size: 0.28rem;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #FFFFFF;
+        line-height: 0.68rem;
+  }
+  .newPage iframe{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: 0.3rem;
+    overflow: auto;
+    outline: none;
+    border: none;
   }
 
   .photo {
